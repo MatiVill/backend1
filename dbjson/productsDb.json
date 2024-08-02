@@ -4,13 +4,6 @@
 		"description": "Kimono Vital Negro",
 		"price": 100000,
 		"stock": 5,
-		"id": 1
-	},
-	{
-		"name": "Kimono Vital Negro 1",
-		"description": "Kimono Vital Negro",
-		"price": 100000,
-		"stock": 5,
 		"id": 2
 	},
 	{
@@ -21,10 +14,10 @@
 		"id": 3
 	},
 	{
-		"name": "Kimono Vital Negro 1",
+		"name": "Kimono Vital Azul",
 		"description": "Kimono Vital Negro",
-		"price": 100000,
-		"stock": 5,
+		"price": 200000,
+		"stock": 7,
 		"id": 4
 	},
 	{

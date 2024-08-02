@@ -17,20 +17,21 @@ class ProductsManagerFs {
 
     }
 
-
     getProducts = async () => {
         const products = await this.readProducts()
         return products
     }
 
-    getProduct = async () => {
+    getProduct = async (objectparams) => {
+        const { pid } = objectparams
         try {
             const products = await this.readProducts()
-            
+            const Found = products.find((product) => product.id === parseInt(pid))
+            return Found
         } catch (error) {
-            console.log('No hay productos')
+            console.log("Producto no encontrado")
         }
-     }
+    }
 
     createProduct = async newProduct => {
         try {
@@ -48,8 +49,41 @@ class ProductsManagerFs {
         }
     }
 
-    updateProduct = async () => { }
-    deleteProduct = async () => { }
+    updateProduct = async (objparams, objbody) => {
+        const { pid } = objparams
+        const { name, description, price, stock } = objbody
+        if (!name || !description || !price || !stock) {
+            console.log("ingresar datos del producto para actualizar")
+            return
+        } else {
+            const listadoProductos = await this.readProducts()
+            const newProductsList = listadoProductos.map((elemento) => {
+                if (elemento.id === parseInt(pid)) {
+                    const updatedProduct = {
+                        ...elemento,
+                        name,
+                        description,
+                        price,
+                        stock
+                    }
+                    return updatedProduct
+                } else {
+                    return elemento
+                }
+            })
+            await fs.promises.writeFile(this.path, JSON.stringify(newProductsList, null, '\t'))
+        }
+    }
 }
+
+deleteProduct = async (objparams) => {
+    const { pid } = objparams
+    const allProducts = await this.readProducts()
+    const productsNoFound = allProducts.filter(
+        (elemento) => elemento.id !== parseInt(pid)
+    )
+    await fs.promises.writeFile(this.path, JSON.stringify(productsNoFound, null, '\t'))
+}
+
 
 module.exports = ProductsManagerFs
