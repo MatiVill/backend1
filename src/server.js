@@ -1,6 +1,7 @@
 const express = require("express")
 const userRouter = require('./routes/users.router.js')
 const productRouter = require('./routes/products.router.js')
+const cartRouter = require('./routes/carts.router.js')
 const logger = require('morgan')
 const { uploader } = require("./utils/multer.js")
 // import express from "express"
@@ -25,7 +26,7 @@ app.post('/', uploader.single('myFile'), (req, res)=>{
 })
 app.use('/api/users', userRouter)
 app.use('/api/products', productRouter)
-//app.use('/api/carts'cartRouter)
+app.use('/api/carts', cartRouter)
 
 app.use( (error, req, res, next) => {
     console.log(error.stack)
