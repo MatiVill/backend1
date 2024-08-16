@@ -2,18 +2,22 @@ const { Router } = require('express')
 
 const router = Router()
 
+router.use('/', (req, res) => {
+    res.render('index', { })
+})
+
 const users = [
     { id: '1', full_name: 'user 1', email: 'user1@gmail' },
     { id: '2', full_name: 'user 2', email: 'user2@gmail' },
     { id: '3', full_name: 'user 3', email: 'user3@gmail' }
 ]
 
-router.get('/', (req, res) => {
+router.get('/user', (req, res) => {
     const userLogin = {
         full_name: 'Mati',
         role: 'admin'
     }
-    res.render('index', {
+    res.render('users', {
         user: userLogin,
         isAdmin: userLogin.role === 'admin',
         users,

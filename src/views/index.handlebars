@@ -1,14 +1,12 @@
-<div>
-    <h1>Bienvenido {{ user.full_name }}</h1>
-    {{#if isAdmin}}
-        {{#each users}}
-            <div>
-                <p>Nombre: {{this.full_name}} - Correo: {{this.email}}</p>
-                <hr>
-            </div>
-        {{/each}}
-    {{else}}
-        <h2>No tienes permisos para ver los usuarios</h2>
-    {{/if}}
-</div>
-<script src="/static/assets/js/index.js"></script>
+<main>
+    <h1>Bienvenidos a Socket</h1>
+    <div id="mensajes">
+
+    </div>
+    <input type="text" placeholder="ingrese el mensaje" name="mensaje"/>
+</main>
+<script src="/socket.io/socket.io.js"></script>
+<script src="/static/assets/js/index.js"></script> 
+<script>
+    const input = document.querySelector('#input')
+</script>
