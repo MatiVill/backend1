@@ -3,7 +3,9 @@ const { Router } = require('express')
 const router = Router()
 
 router.use('/', (req, res) => {
-    res.render('index', { })
+    res.render('chat', {
+        isMenu: true
+     })
 })
 
 const users = [

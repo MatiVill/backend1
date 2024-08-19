@@ -14,27 +14,6 @@ const {Server} = require('socket.io')
 const app = express()
 const PORT = 8080
 
-const httpServer = app.listen(PORT, () => {
-    console.log(`Escuchando en el puerto ${PORT}`)
-})
-
-const socketServer = new Server(httpServer)
-socketServer.on('connection', socket => {
-    console.log('nuevo cliente conectado')
-    
-    socket.on('mensaje', data => {
-        console.log(data)
-    })
-
-    socket.emit('evento_para_un_socket_individual', 'este mensaje solo lo debe recibir el socket actual')
-
-    socket.broadcast.emit('evento_para_todos_menos _para_socket_actual', 'Evento visto por todos menos el actual')
-
-    socketServer.emit('mensaje_para_todos', 'Este mensaje lo recibirán todos')
-})
-
-
-
 // para procesar los json del cliente
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
@@ -47,9 +26,6 @@ app.engine('handlebars', handlebars.engine())
 app.set('views', __dirname + '/views')
 //config extensión plantillas
 app.set('view engine', 'handlebars')
-
-
-
 
 app.post('/', uploader.single('myFile'), (req, res)=>{
     res.send('archivo subido')
@@ -66,3 +42,9 @@ app.use( (error, req, res, next) => {
     console.log(error.stack)
     res.status(500).send('error de server')
 })
+
+const httpServer = app.listen(PORT, () => {
+    console.log(`Escuchando en el puerto ${PORT}`)
+})
+
+const io = new Server(httpServer)
