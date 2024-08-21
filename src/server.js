@@ -56,6 +56,6 @@ io.on('connection', socket=>{
     socket.on('message', data => {
         //console.log(data)
         messages.push(data)
-        io.emit('mesaggeLogs', messages)
+        io.emit('messageLogs', messages)
     })
 })

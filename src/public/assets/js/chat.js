@@ -24,3 +24,12 @@ chatbox.addEventListener('keyup', evt => {
         }
     }
 })
+socket.on('messageLogs', data =>{
+    //console.log('mensajes para todos', data)
+    let log = document.querySelector('#messageLogs')
+    let messages = ''
+    data.forEach(message => {
+        messages = messages + `${message.user} dice: ${message.message}<br>`         
+    })
+    log.innerHTML = messages
+})
