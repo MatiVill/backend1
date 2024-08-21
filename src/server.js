@@ -12,7 +12,7 @@ const {Server} = require('socket.io')
 // import express from "express"
 
 const app = express()
-const PORT = 8080
+const PORT = process.env.PORT || 8080
 
 // para procesar los json del cliente
 app.use(express.json())
