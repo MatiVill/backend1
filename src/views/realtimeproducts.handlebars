@@ -1,0 +1,42 @@
+<h1>Real Time Products</h1>
+
+<section class="container mt-5 w-100 d-flex justify-content-center align-items-center">
+    <form id="product-form" class="form-group w-50">
+        <input type="text" name="name" class="form-control" placeholder="Ingrese el nombre del producto">
+        <input type="text" name="thumbnail" class="form-control" placeholder="Ingrese la url de la imagen del producto">
+        <input type="text" name="description" class="form-control" placeholder="Ingrese la descripción del producto">
+        <input type="text" name="price" class="form-control" placeholder="Ingrese el precio del producto">
+        <input type="text" name="stock" class="form-control" placeholder="Ingrese el stock del producto">
+    </form>
+</section>
+
+<div id="products-list" class="d-flex justify-content-center aling-items-center gap-4">
+
+</div>
+
+
+
+<script src="/socket.io/socket.io.js" ></script>
+<script >
+    const socket = io()
+    socket.on('productsList', data => {
+        const productListDiv = document.querySelector('#products-list')
+        let html = ''
+        data.forEach(product => {
+            html += `
+            <div class='card w-25'>
+            <img scr='${product.thumbnail}' class='image-top'>
+                <div class='card-body'>
+                    <p> Nombre: ${product.name} </p>
+                    <p> Descripción: ${product.description} </p>
+                    <p> Precio: ${product.price} </p>
+                </div>
+                <div class='card-footer'>
+                    <button class='btn btn-outline-dark w-100'>Detalle</button>
+                </div>
+            </div>
+            `
+        })
+        productListDiv.innerHTML = html
+    })
+</script>

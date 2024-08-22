@@ -1,8 +1,9 @@
 const { Router } = require('express')
+const ProductsManagerFs = require('../managers/FileSystem/products.managers')
 
 const router = Router()
 
-router.use('/', (req, res) => {
+router.get('/', (req, res) => {
     res.render('chat', {
         isMenu: true
      })
@@ -28,5 +29,15 @@ router.get('/user', (req, res) => {
     })
 })
 
+router.get('/home', (req, res) =>{
+    //importacion de manager para traer todos los productos
+    const {getProducts} = new ProductsManagerFs()
+    const products = getProducts()
+    res.render('home', {products})
+})
+
+router.get('/realtimeproducts', (req, res) =>{
+    res.render('realtimeproducts', {})
+})
 
 module.exports = router

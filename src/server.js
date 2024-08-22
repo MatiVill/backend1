@@ -7,8 +7,10 @@ const cartRouter = require('./routes/carts.router.js')
 const logger = require('morgan')
 const { uploader } = require("./utils/multer.js")
 const handlebars = require('express-handlebars')
+const {chatSocket} = require('./utils/chatSocket.js')
 
 const {Server} = require('socket.io')
+const ProductsManagerFs = require("./managers/FileSystem/products.managers.js")
 // import express from "express"
 
 const app = express()
@@ -49,13 +51,22 @@ const httpServer = app.listen(PORT, () => {
 
 const io = new Server(httpServer)
 
-let messages = []
-io.on('connection', socket=>{
-    console.log('Nuevo cliente conectado')
+// chatSocket(io)
 
-    socket.on('message', data => {
-        //console.log(data)
-        messages.push(data)
-        io.emit('messageLogs', messages)
-    })
+// const ioMiddleware = (io) => (req, res, next) =>{
+//     req.io=io
+//     next()
+// }
+
+// app.use(ioMiddleware(io))
+const productSocket = (io) =>{
+    io.on('connection', async socket => {
+        console.log('Nuevo cliente conectado')
+        const {getProducts} = new ProductsManagerFs()
+        const products = await getProducts()
+        socket.emit('productsList', products)
 })
+
+}
+
+productSocket(io)
