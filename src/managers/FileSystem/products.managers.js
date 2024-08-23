@@ -74,16 +74,17 @@ class ProductsManagerFs {
             await fs.promises.writeFile(this.path, JSON.stringify(newProductsList, null, '\t'))
         }
     }
+    deleteProduct = async (objparams) => {
+        const { pid } = objparams
+        const allProducts = await this.readProducts()
+        const productsNoFound = allProducts.filter(
+            (elemento) => elemento.id !== parseInt(pid)
+        )
+        await fs.promises.writeFile(this.path, JSON.stringify(productsNoFound, null, '\t'))
+    }
+    
 }
 
-deleteProduct = async (objparams) => {
-    const { pid } = objparams
-    const allProducts = await this.readProducts()
-    const productsNoFound = allProducts.filter(
-        (elemento) => elemento.id !== parseInt(pid)
-    )
-    await fs.promises.writeFile(this.path, JSON.stringify(productsNoFound, null, '\t'))
-}
 
 
 module.exports = ProductsManagerFs

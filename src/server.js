@@ -62,14 +62,15 @@ app.use( (error, req, res, next) => {
 const productSocket = (io) =>{
     io.on('connection', async socket => {
         console.log('Nuevo cliente conectado')
-        const {getProducts, createProduct} = new ProductsManagerFs()
+        const {getProducts, createProduct, deleteProduct } = new ProductsManagerFs()
         const products = await getProducts()
+        
         socket.emit('productsList', products)
-
 
         socket.on('addProduct', async data => {
             await createProduct(data)
         })
+
         socket.on('deleteProduct', async data => {
             await deleteProduct(data)
         })
