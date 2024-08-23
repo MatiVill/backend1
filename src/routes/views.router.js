@@ -29,10 +29,9 @@ router.get('/user', (req, res) => {
     })
 })
 
-router.get('/home', (req, res) =>{
-    //importacion de manager para traer todos los productos
+router.get('/home', async (req, res) =>{
     const {getProducts} = new ProductsManagerFs()
-    const products = getProducts()
+    const products =  await getProducts()
     res.render('home', {products})
 })
 

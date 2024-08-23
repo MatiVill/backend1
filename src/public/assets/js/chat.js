@@ -25,7 +25,7 @@ chatbox.addEventListener('keyup', evt => {
     }
 })
 socket.on('messageLogs', data =>{
-    //console.log('mensajes para todos', data)
+    console.log('mensajes para todos', data)
     let log = document.querySelector('#messageLogs')
     let messages = ''
     data.forEach(message => {

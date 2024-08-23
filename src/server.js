@@ -16,6 +16,20 @@ const ProductsManagerFs = require("./managers/FileSystem/products.managers.js")
 const app = express()
 const PORT = process.env.PORT || 8080
 
+const httpServer = app.listen(PORT, () => {
+    console.log(`Escuchando en el puerto ${PORT}`)
+})
+
+const io = new Server(httpServer)
+
+chatSocket(io)
+
+// const ioMiddleware = (io) => (req, res, next) =>{
+//     req.io=io
+//     next()
+// }
+// app.use(ioMiddleware(io))
+
 // para procesar los json del cliente
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
@@ -45,26 +59,20 @@ app.use( (error, req, res, next) => {
     res.status(500).send('error de server')
 })
 
-const httpServer = app.listen(PORT, () => {
-    console.log(`Escuchando en el puerto ${PORT}`)
-})
-
-const io = new Server(httpServer)
-
-// chatSocket(io)
-
-// const ioMiddleware = (io) => (req, res, next) =>{
-//     req.io=io
-//     next()
-// }
-
-// app.use(ioMiddleware(io))
 const productSocket = (io) =>{
     io.on('connection', async socket => {
         console.log('Nuevo cliente conectado')
-        const {getProducts} = new ProductsManagerFs()
+        const {getProducts, createProduct} = new ProductsManagerFs()
         const products = await getProducts()
         socket.emit('productsList', products)
+
+
+        socket.on('addProduct', async data => {
+            await createProduct(data)
+        })
+        socket.on('deleteProduct', async data => {
+            await deleteProduct(data)
+        })
 })
 
 }

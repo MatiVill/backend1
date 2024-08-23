@@ -1,5 +1,5 @@
 <h1>Real Time Products</h1>
-    <h2>Formulario de productos</h2>
+<h2>Formulario de productos</h2>
 <section class="container mt-5 w-100 d-flex justify-content-center align-items-center mb-5">
 
     <form id="product-form" class="form-group w-50">
@@ -18,8 +18,8 @@
 
 
 
-<script src="/socket.io/socket.io.js" ></script>
-<script >
+<script src="/socket.io/socket.io.js"></script>
+<script>
     const socket = io()
     socket.on('productsList', data => {
         const productListDiv = document.querySelector('#products-list')
@@ -34,11 +34,40 @@
                     <p> Precio: ${product.price} </p>
                 </div>
                 <div class='card-footer'>
-                    <button class='btn btn-outline-dark w-100'>Detalle</button>
+                    <button data-id='${product.id}' class='delete-button btn btn-outline-dark w-100'>Eliminar</button>
                 </div>
             </div>
             `
         })
         productListDiv.innerHTML = html
     })
+
+    let form = document.querySelector('#product-form')
+
+    form.addEventListener('submit', evt => {
+        evt.preventDefault()
+        const name = form.elements.name.value
+        const thumbnail = form.elements.thumbnail.value
+        const description = form.elements.description.value
+        const stock = form.elements.stock.value
+        const price = form.elements.price.value
+
+        socket.emit('addProduct', {
+            name,
+            price: Numbre(price),
+            stock: parteInt(stock),
+            description,
+            thumbnail
+        })
+        form.reset()
+    })
+
+    document.querySelectorAll('.delete-button').forEach(button => {
+        button.addEventListener('click', function () {
+            const productId = this.getAttribute('data-id');
+            socket.emit('deleteProduct', parseInt(productId, 10))
+        });
+    })
+
+
 </script>

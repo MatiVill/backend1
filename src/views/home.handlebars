@@ -1,1 +1,20 @@
 <h1>Home</h1>
+
+{{#each products}}
+<article class="d-flex justify-content-center aling-items-center gap-4">
+    <div class="card w-25 d-flex justify-content-center aling-items-center gap-4">
+        <div class="">
+            <img src="{{thumbnail}}" width="150" />
+        </div>
+        <div class="card-body">
+            <h2>{{name}}</h2>
+            <h3>{{description}}</h3>
+        </div>
+        <a href="#">Comprar</a>
+    </div>
+
+</article>
+{{/each}}
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="static/assets/js/home.js"></script>
