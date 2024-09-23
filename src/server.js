@@ -11,6 +11,8 @@ const {chatSocket} = require('./utils/chatSocket.js')
 
 const {Server} = require('socket.io')
 const ProductsManagerFs = require("./managers/FileSystem/products.managers.js")
+const { connect } = require("mongoose")
+const { connectDB } = require("./config/index.js")
 // import express from "express"
 
 const app = express()
@@ -42,6 +44,8 @@ app.engine('handlebars', handlebars.engine())
 app.set('views', __dirname + '/views')
 //config extensión plantillas
 app.set('view engine', 'handlebars')
+
+connectDB()
 
 app.post('/', uploader.single('myFile'), (req, res)=>{
     res.send('archivo subido')
