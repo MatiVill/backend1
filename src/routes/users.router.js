@@ -14,10 +14,9 @@ function auth(req, res, next) {
     next()
 }
 
-const users = []
-
 router.get('/', async (req, res) => {
-    const users = await userModel.find()
+    const users = await userModel.find().explain('executionsStats')
+    console.log(users)
     res.send({status: 'success', payload: users})
 })
 

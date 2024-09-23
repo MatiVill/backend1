@@ -5,14 +5,16 @@ const userCollection = 'users'
 const userSchema = new Schema({
     first_name: {
         type: String,
-        required: true 
+        required: true,
+        index: true 
     }, 
     last_name: String,
     email: {
         type: String,
         required: true,
         unique: true
-    }
+    },
+    gender: String
 })
 
 const userModel = model(userCollection, userSchema)
